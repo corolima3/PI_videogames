@@ -4,7 +4,7 @@ import Card from "../Card/Card";
 //import { useSelector } from "react-redux";
 
 const CardsContener = (props) => {
-  const {allVideogames}= props;
+  const {pageItems}= props;
  // console.log(allvideogames) 
  // const {id,name, image, released, platforms, genres, created}= props;
  //   const pokemonsByName = useSelector(state => state.allPokemons);
@@ -12,7 +12,7 @@ const CardsContener = (props) => {
   return (  
     <div className={style.cardsContaner} >
 
-      {allVideogames.map((videogames, index)=>{
+      {pageItems.map((videogames, index)=>{
         return <Card 
           key={videogames.id}
           id={videogames.id}

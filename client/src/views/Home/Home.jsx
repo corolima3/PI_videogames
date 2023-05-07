@@ -14,15 +14,20 @@ const Home =()=>{
 
  const { allVideogames, byName}= useSelector((state)=>state)
  const [data, setData] = useState(allVideogames);
+
  useEffect(() => {
-  if(!allVideogames.length) dispatch(getAllVideogames());
-  if(!getAllGenres.length)dispatch(getAllGenres());
-     if (Object.keys(byName).length > 0) {
-      setData(byName);
-    } else {
-      setData(allVideogames);
-    }
-    },[dispatch,allVideogames.length, byName])
+  dispatch(getAllVideogames());
+  dispatch(getAllGenres());
+}, [dispatch]);
+
+useEffect(() => {
+  if (byName.length > 0) {
+    setData(byName);
+  } else {
+    setData(allVideogames);
+  }
+}, [byName, allVideogames]);
+
     //eslintreact-hooks/exhaustive-deps
     // useEffect(() => {
         // if(!allVideogames){dispatch(getAllVideogames())}
@@ -69,7 +74,7 @@ console.log(data)
     <div className={style.home}>
         <h1>Estas en home {currentPage}</h1>
         <Filter />
-        <CardsContener allVideogames={pageItems}/>
+        <CardsContener pageItems={pageItems}/>
         <button onClick={handlePrevPage}>Anterior</button>
         {pageNumbers.map((pageNumber) => (
         <button key={pageNumber} onClick={() => handlePage(pageNumber)}>
