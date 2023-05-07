@@ -9,7 +9,7 @@ const NavBar=()=>{
     return (
         <div className={style.NavBar}>
             <Link to="/home" ><button >PÁGINA PRINCIPAL</button></Link>
-            <Link to="/create" ><button >CREAR POKEMON</button></Link>
+            <Link to="/create" ><button >CREAR VIDEOGAME</button></Link>
            <SearchBar />
         </div>
     )

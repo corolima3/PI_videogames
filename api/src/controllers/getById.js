@@ -25,11 +25,23 @@ const getById= async(id,source) => {
 
         return videogames;
     } else {
-        const searchByid= await Videogame.findByPk(id , { include: Genre });
-//falta incluir
-        const pokemon = { ...searchByid.toJSON()}
+        let searchByid= await Videogame.findByPk(id , { include: Genre });
+       const { dataValues}= searchByid
+    // console.log(dataValues);
+       const result = {
+        id: dataValues.id,
+        name: dataValues.name,
+        genres: dataValues.genres?.map((gen) => gen.name),
+        platforms: dataValues.platforms,
+        released: dataValues.released,
+        image: dataValues.image,
+        rating: dataValues.rating,
+        description: dataValues.description,
+    }
+
+        const gameDDBB =  result ;
                             // ver toJSON
-        return pokemon
+        return gameDDBB
     }
 };
 module.exports={ getById }

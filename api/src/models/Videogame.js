@@ -28,10 +28,12 @@ module.exports = (sequelize) => {
       // allowNull: false
     },
     rating:{
-      type: DataTypes.INTEGER
+      type: DataTypes.FLOAT
+      //type: DataTypes.INTEGER
     },
     platforms:{
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING)
+    //type: DataTypes.STRING,
       // allowNull: false 
     },created: {
       type: DataTypes.BOOLEAN,

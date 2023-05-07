@@ -10,7 +10,7 @@ const getAll=async()=>{
     let URL = `https://api.rawg.io/api/games?key=${API_KEY}`
 
     let apiRaw = [];
-       while (count<6) {
+       while (count<5) {
         
            const callApi=   await axios.get(URL) ///asincronico
                .then((response)=> {
@@ -33,9 +33,31 @@ const getAll=async()=>{
        }
         //console.log(apiRaw);
     //DDBB
-    const DDBB = await Videogame.findAll({ include: Genre });
-    //console.log(...DDBB)                  verificar
-       apiRaw.push(...DDBB)
+    let DDBB = await Videogame.findAll({  
+        include: {
+            model: Genre,
+            attributes:  ["name"],
+            through: {
+                attributes: [],
+            },
+        } });
+
+                   // verificar
+    DDBB = DDBB?.map((game)=> {
+        return {
+            id: game.id,
+            name: game.name,
+            genres: game.genres?.map((gen) => gen.name),
+            platforms: game.platforms,
+            released: game.released,
+            image: game.image,
+            rating: game.rating,
+            description: game.description,
+            created:game.created,
+        };
+    });
+
+    apiRaw.push(...DDBB )
     return apiRaw ;       
 }
 
@@ -47,7 +69,29 @@ const byName = async (name)=>{ //
     let newArr=[];
     try {
        // const pokemonDB = await Pokemon.findOne({ where: { name } });/VER WHERE
-       const videogameDDBB = await Videogame.findOne({ where: { name: name } });
+       let videogameDDBB = await Videogame.findOne({ where: { name: name },
+        include: {
+        model: Genre,
+        attributes: ["name"],
+        through: {
+            attributes: [],
+        },
+    }, });
+    videogameDDBB = videogameDDBB ? [videogameDDBB] : [];
+    videogameDDBB = videogameDDBB.map((game) => {
+            return {
+                id: game.id,
+                name: game.name,
+                genres: game.genres?.map((gen) => gen.name),
+                platforms: game.platfoms,
+                released: game.released,
+                image: game.image,
+                rating: game.rating,
+                description: game.description,
+            };
+        });
+    
+
        //API by name
         const videogamesRaw = (await axios.get(URL)).data.results.slice(0, 15);
 

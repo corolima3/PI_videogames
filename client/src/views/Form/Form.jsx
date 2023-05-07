@@ -1,142 +1,134 @@
-import { useState } from "react";
-import style from './Form.module.css';
-
-const validate = (form) => {
-    let errors = {};
-    
-    if (!form.name) {
-        errors.name = "El nombre es obligatorio";
-    } else if (form.name.length <= 2) {
-        errors.name = "El nombre debe tener por lo menos 3 caracteres";
-    } else if (!/^([^0-9]*)$/.test(form.name)) {
-        errors.name = "El nombre no puede contener números";
-    };
-
-    if (!form.image) {
-        errors.image = "La imagen es obligatoria";
-    } else if (!/^(ftp|http|https):\/\/[^ "]+$/.test(form.image)) {
-        errors.image = "La imagen debe ser una url";
-    };
-
-    if (!form.hp) {
-        errors.hp = "La vida es obligatoria";
-    } else if (form.hp < 1 || form.hp > 999) {
-        errors.hp = "La vida debe ser entre 1 y 999";
-    };
-
-    if (!form.attack) {
-        errors.attack = "El ataque es obligatorio";
-    } else if (form.attack < 1 || form.attack > 999) {
-        errors.attack = "El ataque debe ser entre 1 y 999";
-    };
-
-    if (!form.defense) {
-        errors.defense = "La defensa es obligatoria";
-    } else if (form.defense < 1 || form.defense > 999) {
-        errors.defense = "La defensa debe ser entre 1 y 999";
-    };
-
-    if (form.speed < 1 || form.speed > 999) {
-        errors.speed = "La velocidad debe ser entre 1 y 999";
-    };
-
-    if (form.height < 1 || form.height > 999) {
-        errors.height = "La altura debe ser entre 1 y 999";
-    };
-
-    if (form.weight < 1 || form.weight > 999) {
-        errors.weight = "El peso debe ser entre 1 y 999";
-    };
-
-    if (form.typesId.length > 2) {
-        errors.types = "No puede tener mas de 2 tipos";
-    };
-
-    return errors;
-};
-
+import { useState,useEffect } from "react";
+// from './Form.module.css';
+import { useSelector, useDispatch } from "react-redux"
+import validate from './validate';
+import { createVideogame, getAllGenres } from '../../redux/actions.js';
 
 const Form =()=>{
-    const [form, setForm] = useState({
-        name: "",
-        image: "",
-        hp: "",
-        attack: "",
-        defense: "",
-        speed: "",
-        height: "",
-        weight: "",
-        typesId: [],
-    });
+
+ const  { allGenres }= useSelector((state)=>state)
+
+ //console.log({errorMsg})
+ const dispatch =useDispatch();
+
+ useEffect(()=>{
+  dispatch(getAllGenres());
+ },[dispatch])
+
     const [errors, setErrors] = useState({
-        name: "",
-        image: "",
-        hp: "",
-        attack: "",
-        defense: "",
-        speed: "",
-        height: "",
-        weight: "",
-        types: "",
+        name: '', 
+        image: '',
+        description:'',
+        platforms:[],
+        released:'',
+        rating:0,
+        genres:"",
     });
+    const platformsApi= [ "PC", "PlayStation 4", "PlayStation 3", "Xbox One", "Xbox Series S/X", "Xbox 360", 
+      "Nintendo Switch", "Nintendo 3DS",  "iOS", "Android", "macOS"]
+    const [userData, setUserData] = useState({
+        name: '', 
+        image: '',
+        description:'',
+        platforms:[],
+        released:'',
+        genre:"",
+        rating:0,
+ })
 
-
-    const changeInputHandler = (event) => {
-
-            setForm({...form, [event.target.name]: event.target.value});
-            setErrors(validate({...form, [event.target.name]: event.target.value}));
+    const handlerInput = (event) => {
+            setUserData({
+                ...userData, [event.target.name]: event.target.value
+            });
+            setErrors(validate({...userData, [event.target.name]: event.target.value}));
     };
+    function handlerGenres(e) {
+      setUserData({
+          ...userData,
+          //genre: userData.genres.includes(e.target.value) ? userData.genres : [...userData.genres, e.target.value]
+          genre: e.target.value
+      });
+  }
+    function handlerPlatforms(e) {
+      setUserData({
+          ...userData,
+          platforms:[...userData.platforms, e.target.value]
+      });
+  }
+  const objecto={
+    name: "fortnite",
+    image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+    released: "2010-08-24",
+    description: "ano",
+    rating: "2.3",
+    platforms: [
+      "play",
+      "xbox"
+    ],
+    genre: "Action"
+  }
+  
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        setErrors(validate(userData))
+        console.log(userData)
+
+        // setTimeout(() => {
+        //   dispatch(createVideogame(objecto));
+        //    alert("Game Created!")
+        // })
+        setTimeout(() => { // espera un poco antes de verificar los errores
+          if(Object.values(errors).length >0) {
+            return alert("Please verify that all fields are filled in correctly");
+          } else {
+            dispatch(createVideogame(userData));
+            alert("Game Created!");
+            // window.location.reload();
+          }
+        }, 100)
+  
+    }
+    //console.log(userData)
 
     return (
     <>
-        <form>
-            <h2>Crea tu Pokemon</h2>
-            <div className={style.formDivInput}>
-                    <label htmlFor="name" className={style.formLabel}>Name:</label>
-                    <input type="text" name="name" placeholder="..." value={form.name} onChange={changeInputHandler} className={style.formInput}  />
-            </div>
-                {errors.name && <p className={style.formError}>{errors.name}</p>}
+        <form onSubmit={handleSubmit}>
+            <h2>Crea tu Videogame</h2>
+            <label> Nombre:
+        <input type="text" value={userData.name} onChange={handlerInput} name={"name"} />
+      </label>
+      {errors.name && <p>{errors.name}</p>}
+      <label> Imagen:
+        <input type="text" value={userData.image} onChange={handlerInput} name={"image"}/>
+      </label>
+      {errors.image && <p>{errors.image}</p>}
+      <label> Descripción:
+        <textarea value={userData.description} onChange={handlerInput} name={"description"}/>
+      </label>
+      {errors.description && <p>{errors.description}</p>}
+      <label> Plataformas: </label>
+        <select name='platforms' onChange={handlerPlatforms}>
+          <option >...</option>
+          {platformsApi.map((plat, i) => {return(<option key={i} value={plat}>{plat}</option>)})}
+        </select>
+        {errors.platforms && <p>{errors.platforms}</p>}
+     
+      <label> Fecha de lanzamiento:
+        <input type="date" value={userData.released} onChange={handlerInput} name={"released"} />
+      </label>
+      {errors.released && <p>{errors.released}</p>}
 
-            <div className={style.formDivInput}>
-                    <label htmlFor="image" className={style.formLabel}>Imagen:</label>
-                    <input type="text" name="image" placeholder="Imagen (url)" value={form.image} onChange={changeInputHandler} className={style.formInput} />
-            </div>
-                {errors.image && <p className={style.formError}>{errors.image}</p>}
-
-            <div className={style.formDivInput}>
-                    <label htmlFor="hp" className={style.formLabel}>Vida</label>
-                    <input type="number" name="hp" placeholder="Vida" value={form.hp} onChange={changeInputHandler} className={style.formInput}  />
-            </div>
-                {errors.hp && <p className={style.formError}>{errors.hp}</p>}
-
-            <div className={style.formDivInput}>
-                    <label htmlFor="attack" className={style.formLabel}>Ataque</label>
-                    <input type="number" name="attack" placeholder="Ataque" value={form.attack} onChange={changeInputHandler} className={style.formInput}  />
-            </div>
-                {errors.attack && <p className={style.formError}>{errors.attack}</p>}
-
-            <div className={style.formDivInput}>
-                    <label htmlFor="defense" className={style.formLabel}>Defensa</label>
-                    <input type="number" name="defense" placeholder="Defensa" value={form.defense} onChange={changeInputHandler} className={style.formInput}  />
-            </div>
-                {errors.defense &&<p className={style.formError}>{errors.defense}</p>}
-
-            <div className={style.formDivInput}>
-                    <label htmlFor="speed" className={style.formLabel}>Velocidad</label>
-                    <input type="number" name="speed" placeholder="Velocidad" value={form.speed} onChange={changeInputHandler} className={style.formInput}  />
-            </div>
-                {errors.speed  &&<p className={style.formError}>{errors.speed}</p>}
-
-            <div className={style.formDivInput}>
-                    <label htmlFor="height" className={style.formLabel}>Altura</label>
-                    <input type="number" name="height" placeholder="Altura" value={form.height} onChange={changeInputHandler} className={style.formInput} />
-            </div>
-                {errors.height && <p className={style.formError}>{errors.height}</p>}
-
-            <div className={style.formDivInput}>
-                    <label htmlFor="weight" className={style.formLabel}>Peso</label>
-                    <input type="number" name="weight" placeholder="Peso" value={form.weight} onChange={changeInputHandler} className={style.formInput}  />
-            </div>
+      <label> Rating:
+        <input type="number" min="0" max="6" step="0.2" value={userData.rating} onChange={handlerInput} name={"rating"} />
+      </label>
+      {errors.rating && <p>{errors.rating}</p>}
+      <label>Géneros: </label>
+        <select name='genres'  onChange={ handlerGenres }>
+           <option value="genres">...</option>
+           {allGenres?.map((genre, i) => {return(<option key={i} value={genre.name}>{genre.name}</option>)})}
+        </select>
+        {errors.genres && <p>{errors.genres}</p>}
+      <button type="submit">Crear videojuego</button>
         </form>
     </> 
     )

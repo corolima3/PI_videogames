@@ -4,7 +4,8 @@ import thunkMiddleware from "redux-thunk";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // connection to REDUX DEVTOOLS 
 
-const store = createStore( reducer,
+const store = createStore(
+    reducer,
     composeEnhancer(applyMiddleware(thunkMiddleware))
 );
 
