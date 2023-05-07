@@ -3,15 +3,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import style from './NavBar.module.css'
 import SearchBar from "../SearchBar/SearchBar.jsx";
-
+//className={style.NavBar}
 const NavBar=()=>{
 
     return (
-        <div className={style.NavBar}>
-            <Link to="/home" ><button >PÁGINA PRINCIPAL</button></Link>
-            <Link to="/create" ><button >CREAR VIDEOGAME</button></Link>
-           <SearchBar />
-        </div>
+        
+        <span className={style.NavBar}>
+            <Link to="/home" className={style.link}>HOME</Link>
+            <Link to="/create" className={style.link}>CREAR VIDEOGAME</Link>
+           <SearchBar className={style.SearchBar}/>
+        </span>
+
     )
 
 };

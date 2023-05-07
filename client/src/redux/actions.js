@@ -64,6 +64,7 @@ export const filterByGenre = (genre) => dispatch => {
 export const filterDbGames = (value) => dispatch => {
     return dispatch({type: FILTER_BY_DDBB, payload: value });
 };
+
 export const getByName = (name) => {
     return async function (dispatch) {
         try {

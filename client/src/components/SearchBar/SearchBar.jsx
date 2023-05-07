@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {getByName} from '../../redux/actions';
-
+import style from './SearchBar.module.css'
 const SearchBar=()=>{
     const dispatch = useDispatch();
     const [search, setSearch] = useState("");
@@ -18,8 +18,8 @@ const SearchBar=()=>{
     }
     return(
         <div>
-            <input onChange={handleSearch} value={search} type='search' placeholder="Search Videogame..." />
-            <button onClick={handleClick }>Agregar</button>
+            <input className={style.input} onChange={handleSearch} value={search} type='search' placeholder="Search Videogame..." />
+            <button className={style.button} onClick={handleClick }>AGREGAR</button>
         </div>
     )
 } 

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const Card = (props) => {
     const { id, name, image, genres }= props;
     return (
+        
         <Link to={`/detail/${id}`}>
         <div className={style.cardContainer} >
             <p className={style.fontFamily}>{name}</p>

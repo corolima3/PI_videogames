@@ -17,8 +17,7 @@ function App() {
             <Route exact path="/" render={()=><Landing/>} />
             <Route exact path="/create" render={()=><Form />} />
             <Route exact path="/detail/:id" component={Detail} />
-    
-        
+            
     </div>
   );
 }
