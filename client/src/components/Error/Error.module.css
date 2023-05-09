@@ -1,0 +1,21 @@
+.container {
+    
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 6vw;
+}
+
+.container img {
+    width: 600px;
+    margin: auto;
+}
+
+/* 
+width: 100vw;
+    height: 100vh;
+    position: fixed;
+ user-select: none;
+    z-index: 200;
+    margin: 10vw;
+*/

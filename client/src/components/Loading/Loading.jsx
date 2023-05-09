@@ -1,10 +1,10 @@
-//import s from "./Loading.module.css"
-import loader from "../../assets/loader.gif"
-
+import style from "./Loading.module.css"
+import loading from "../../assets/loading.gif"
+//<img src={loader} alt="loader"/>
 const Loading = () => {
     return (
-        <div >
-            <img src={loader} alt="loader"/>
+        <div className={style.loading}>
+            <img src={loading} alt="loading" />
         </div>
     )
 }

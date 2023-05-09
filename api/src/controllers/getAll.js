@@ -83,7 +83,7 @@ const byName = async (name)=>{ //
                 id: game.id,
                 name: game.name,
                 genres: game.genres?.map((gen) => gen.name),
-                platforms: game.platfoms,
+                platforms: game.platforms,
                 released: game.released,
                 image: game.image,
                 rating: game.rating,
@@ -109,7 +109,7 @@ const byName = async (name)=>{ //
             }
         })
         }
-        if(videogameDDBB) {newArr.push(videogameDDBB) } 
+        if(videogameDDBB) {newArr.push(...videogameDDBB) } 
         newArr.push(...(await Api(videogamesRaw)));
        
         return newArr;

@@ -1,32 +1,44 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {getAllVideogames, getAllGenres } from '../../redux/actions'
+import {getAllVideogames, getAllGenres, filterByGenre } from '../../redux/actions'
 //import NavBar from '../../components/NavBar/NavBar'
 import CardsContener from "../../components/CardsContener/CardsContener";
 import Filter from '../../components/Filter/Filter';
 import Loading from '../../components/Loading/Loading';
 import style from './Home.module.css'
+import Error from '../../components/Error/Error';
+
 const Home =()=>{
  
  const dispatch = useDispatch();
  const BY_PAGE= 15;
 
- const { allVideogames, byName}= useSelector((state)=>state)
+ const { allVideogames, byName, access, filterVideogames}= useSelector((state)=>state)
  const [data, setData] = useState(allVideogames);
 
  useEffect(() => {
-  dispatch(getAllVideogames());
-  dispatch(getAllGenres());
+  if (!allVideogames.length) dispatch(getAllVideogames());
+  if (!getAllGenres.length) dispatch(getAllGenres());
+  
 }, [dispatch]);
 
 useEffect(() => {
-  if (byName.length > 0) {
+  if (byName.length && access ) {
     setData(byName);
+  } else if(filterVideogames&&access){
+    setData(filterVideogames)
   } else {
     setData(allVideogames);
   }
-}, [byName, allVideogames]);
+}, [byName, allVideogames, filterVideogames ]);
+// useEffect(() => {
+//   if (byName.length > 0) {
+//     setData(byName);
+//   } else {
+//     setData(allVideogames);
+//   }
+// }, [byName, allVideogames]);
 
     //eslintreact-hooks/exhaustive-deps
     // useEffect(() => {
@@ -70,18 +82,25 @@ console.log(data)
     return (
       <div>
       {
-        allVideogames?
+        allVideogames.length?
     <div className={style.home}>
-        <h1>Estas en home {currentPage}</h1>
-        <Filter />
-        <CardsContener pageItems={pageItems}/>
-        <button onClick={handlePrevPage}>Anterior</button>
-        {pageNumbers.map((pageNumber) => (
-        <button key={pageNumber} onClick={() => handlePage(pageNumber)}>
+        <Filter setData={setData} />
+      <div className={style.center}>
+        <h1>{currentPage}</h1>
+      </div>
+      {pageItems.length? <CardsContener pageItems={pageItems}/> : <Error />
+
+      }
+        <div className={style.center}>
+          <button onClick={handlePrevPage}>Anterior</button>
+          {pageNumbers.map((pageNumber) => (
+          <button key={pageNumber} onClick={() => handlePage(pageNumber)}>
           {pageNumber}
-        </button>
-      ))}
-        <button onClick={handleNextPage}>Siguiente</button>
+          </button>
+          ))}
+          <button onClick={handleNextPage}>Siguiente</button>
+
+        </div>
     </div> : <Loading />
       }
       </div>

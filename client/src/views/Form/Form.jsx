@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-// from './Form.module.css';
+import style from './Form.module.css';
 import { useSelector, useDispatch } from "react-redux"
 import validate from './validate';
 import { createVideogame, getAllGenres } from '../../redux/actions.js';
@@ -21,9 +21,10 @@ const Form =()=>{
         description:'',
         platforms:[],
         released:'',
-        rating:0,
-        genres:"",
+        rating:"",
+        genre:"",
     });
+    
     const platformsApi= [ "PC", "PlayStation 4", "PlayStation 3", "Xbox One", "Xbox Series S/X", "Xbox 360", 
       "Nintendo Switch", "Nintendo 3DS",  "iOS", "Android", "macOS"]
     const [userData, setUserData] = useState({
@@ -33,45 +34,47 @@ const Form =()=>{
         platforms:[],
         released:'',
         genre:"",
-        rating:0,
- })
+        rating:"",
+      })
 
     const handlerInput = (event) => {
             setUserData({
                 ...userData, [event.target.name]: event.target.value
             });
-            setErrors(validate({...userData, [event.target.name]: event.target.value}));
+          setErrors(validate({...userData, [event.target.name]: event.target.value}));
+            //  setErrors((prevState) => ({
+            //    ...prevState,
+            //    [event.target.name]: validate({ [event.target.name]: event.target.value }),
+            //  }));
     };
     function handlerGenres(e) {
-      setUserData({
-          ...userData,
+      setUserData({ ...userData, genre: e.target.value
           //genre: userData.genres.includes(e.target.value) ? userData.genres : [...userData.genres, e.target.value]
-          genre: e.target.value
+
       });
+      setErrors(validate({...userData, genre: e.target.value}));
+      // setErrors((prevState) => ({
+      //   ...prevState,
+      //   genre : validate({ [e.target.name]: e.target.value }),
+      // }));
   }
     function handlerPlatforms(e) {
-      setUserData({
-          ...userData,
-          platforms:[...userData.platforms, e.target.value]
+      setUserData({ ...userData, platforms:[e.target.value]
+     // setUserData({ ...userData, platforms:[...userData.platforms, e.target.value]
+
       });
+      setErrors(validate({...userData, platforms:[...userData.platforms, e.target.value]}));
+      // setErrors((prevState) => ({
+      //   ...prevState,
+      //   platforms: validate({ [e.target.name]: e.target.value }),
+      // }));
   }
-  const objecto={
-    name: "fortnite",
-    image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-    released: "2010-08-24",
-    description: "ano",
-    rating: "2.3",
-    platforms: [
-      "play",
-      "xbox"
-    ],
-    genre: "Action"
-  }
+
+  console.log(userData)
   
     const handleSubmit=(e)=>{
         e.preventDefault();
         setErrors(validate(userData))
-        console.log(userData)
 
         // setTimeout(() => {
         //   dispatch(createVideogame(objecto));
@@ -83,7 +86,7 @@ const Form =()=>{
           } else {
             dispatch(createVideogame(userData));
             alert("Game Created!");
-            // window.location.reload();
+            //window.location.reload();
           }
         }, 100)
   
@@ -91,46 +94,46 @@ const Form =()=>{
     //console.log(userData)
 
     return (
-    <>
+    <div className={style.column}>
         <form onSubmit={handleSubmit}>
-            <h2>Crea tu Videogame</h2>
-            <label> Nombre:
-        <input type="text" value={userData.name} onChange={handlerInput} name={"name"} />
-      </label>
-      {errors.name && <p>{errors.name}</p>}
-      <label> Imagen:
-        <input type="text" value={userData.image} onChange={handlerInput} name={"image"}/>
-      </label>
-      {errors.image && <p>{errors.image}</p>}
-      <label> Descripción:
-        <textarea value={userData.description} onChange={handlerInput} name={"description"}/>
-      </label>
-      {errors.description && <p>{errors.description}</p>}
-      <label> Plataformas: </label>
-        <select name='platforms' onChange={handlerPlatforms}>
-          <option >...</option>
-          {platformsApi.map((plat, i) => {return(<option key={i} value={plat}>{plat}</option>)})}
-        </select>
-        {errors.platforms && <p>{errors.platforms}</p>}
+          <h2>Crea tu Videogame</h2>
+          <label> Nombre:
+            <input type="text" value={userData.name} onChange={handlerInput} name={"name"} placeholder={"..."} className={style.input}/>
+          </label>
+            {errors.name && <p>{errors.name}</p>}
+          <label> Imagen:
+            <input type="text" value={userData.image} onChange={handlerInput} name={"image"} placeholder={"..."} className={style.input}/>
+          </label>
+            {errors.image && <p>{errors.image}</p>}
+          <label> Descripción:
+            <textarea value={userData.description} onChange={handlerInput} name={"description"} placeholder={"Escribe al menos 15 caracteres..."} className={style.input}/>
+          </label>
+            {errors.description && <p>{errors.description}</p>}
+          <label> Plataformas: </label>
+            <select name='platforms' onChange={handlerPlatforms} className={style.input}>
+              <option >...</option>
+              {platformsApi.map((plat, i) => {return(<option key={i} value={plat}>{plat}</option>)})}
+            </select>
+            {errors.platforms && <p>{errors.platforms}</p>}
      
-      <label> Fecha de lanzamiento:
-        <input type="date" value={userData.released} onChange={handlerInput} name={"released"} />
-      </label>
-      {errors.released && <p>{errors.released}</p>}
+          <label> Fecha de lanzamiento:
+            <input type="date" value={userData.released} onChange={handlerInput} name={"released"} placeholder={"Elige fecha..."} className={style.input}/>
+          </label>
+            {errors.released && <p>{errors.released}</p>}
 
-      <label> Rating:
-        <input type="number" min="0" max="6" step="0.2" value={userData.rating} onChange={handlerInput} name={"rating"} />
-      </label>
-      {errors.rating && <p>{errors.rating}</p>}
-      <label>Géneros: </label>
-        <select name='genres'  onChange={ handlerGenres }>
-           <option value="genres">...</option>
-           {allGenres?.map((genre, i) => {return(<option key={i} value={genre.name}>{genre.name}</option>)})}
-        </select>
-        {errors.genres && <p>{errors.genres}</p>}
+          <label> Rating:
+            <input type="text" value={userData.rating} onChange={handlerInput} name={"rating"} placeholder={"..."}/>
+          </label>
+            {errors.rating && <p>{errors.rating}</p>}
+          <label>Géneros: </label>
+            <select name='genre'  onChange={ handlerGenres }>
+              <option value="genre">...</option>
+              {allGenres?.map((genre, i) => {return(<option key={i} value={genre.name}>{genre.name}</option>)})}
+            </select>
+        {errors.genre && <p>{errors.genre}</p>}
       <button type="submit">Crear videojuego</button>
         </form>
-    </> 
+    </div> 
     )
 };
 

@@ -4,18 +4,19 @@ import { Link } from "react-router-dom";
 
 
 const Card = (props) => {
-    const { id, name, image, genres }= props;
+    const { id, name, image, genres, rating }= props;
     return (
         
-        <Link to={`/detail/${id}`}>
+        <Link style={{ textDecoration: 'none' }} to={`/detail/${id}`}>
         <div className={style.cardContainer} >
-            <p className={style.fontFamily}>{name}</p>
+            <span className={style.fontFamily}>{name}</span>
             <img src={image} alt={name} className={style.imagen} />
-            <div>
+            <span>{rating}</span>
+            
                 {genres.map((genre,index) => (
-        <span key={index}>{genre}</span>
-          ))}
-            </div>
+                <span key={index}>{genre}</span>
+                ))}
+        
         </div>
         </Link>
     )

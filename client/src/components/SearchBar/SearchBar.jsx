@@ -1,15 +1,17 @@
 import {useState} from "react";
-import {useDispatch} from "react-redux";
-import {getByName} from '../../redux/actions';
+import {useDispatch, useSelector} from "react-redux";
+import {getByName, returnVideogames} from '../../redux/actions';
 import style from './SearchBar.module.css'
 const SearchBar=()=>{
     const dispatch = useDispatch();
+   // const {access}= useSelector((state)=>state);
     const [search, setSearch] = useState("");
 
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
     const handleClick = (e) => {
+        dispatch(returnVideogames (true))
         e.preventDefault()
         if (search.length) {
         dispatch(getByName(search))

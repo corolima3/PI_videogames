@@ -8,6 +8,9 @@ export const ORDER_BY_RATING = "ORDER_BY_RATING";
 export const ORDER_BY_ALP = "ORDER_BY_ALP";
 export const FILTER_BY_GENRE = "FILTER_BY_GENRE";
 export const FILTER_BY_DDBB = "FILTER_BY_DDBB";
+export const RETURN_VIDEOGAMES = "RETURN_VIDEOGAMES";
+export const DELETE_STATE= "DELETE_STATE";
+
 
 export const getAllVideogames=()=>{
     return async (dispatch) => {
@@ -74,5 +77,20 @@ export const getByName = (name) => {
             dispatch({ type: BY_NAME_VIDEOGAMES, payload: [] });
             };
         }; 
+    };
+    
+    export const returnVideogames = (access) => dispatch => {
+        try {
+            return dispatch({type: RETURN_VIDEOGAMES, payload: access})
+        } catch (error) { console.log(error)
+            //return dispatch({type: ERROR, payload: error});
+        }
+    };
+    export const deleteState = (value) => dispatch => {
+        try {
+            return dispatch({type: DELETE_STATE, payload: value})
+        } catch (error) { console.log(error)
+            //return dispatch({type: ERROR, payload: error});
+        }
     };
     

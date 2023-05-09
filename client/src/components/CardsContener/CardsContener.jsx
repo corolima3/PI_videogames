@@ -19,7 +19,7 @@ const CardsContener = (props) => {
           name={videogames.name.toUpperCase()}
           image={videogames.image} 
           released= {videogames.released} 
-        
+          rating={videogames.rating}
           genres= {videogames.genres}
           created= {videogames.created} 
         />
