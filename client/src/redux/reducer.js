@@ -2,15 +2,14 @@
 import { ALL_VIDEOGAMES, BY_NAME_VIDEOGAMES, BY_ID_VIDEOGAMES, ALL_GENRES, ORDER_BY_RATING, ORDER_BY_ALP, 
   FILTER_BY_GENRE,FILTER_BY_DDBB, CREATE_GAME, RETURN_VIDEOGAMES, DELETE_STATE} from "./actions";
 const initialState = {
+  primalVideogames:[],
   allVideogames:[],
   orderVideogames:[],
   filterVideogames:[],
   byName:[],
-    allGenres:[],
-    currentPage: 1,
-    totalPages: 0,
-    access:false,
-    errorMsg:{},
+  allGenres:[],
+  access:false,
+  errorMsg:{},
 }
 
 const reducer=(state=initialState, {type, payload}) =>{
@@ -19,8 +18,9 @@ const reducer=(state=initialState, {type, payload}) =>{
         case ALL_VIDEOGAMES:
           return { ...state, 
             //filterVideogames:payload,
+            primalVideogames:payload,
             allVideogames: payload,
-            orderVideogames:payload,
+            //orderVideogames:payload,
           };
         case BY_ID_VIDEOGAMES:
           return { ...state, allVideogames: payload,
@@ -42,25 +42,29 @@ const reducer=(state=initialState, {type, payload}) =>{
             return {
                 ...state,
                 //filterVideogames: state.filterVideogames.sort((a,b) => a.name > b.name )
-                orderVideogames: state.orderVideogames.sort((a, b) => a.name.localeCompare(b.name) )
+                orderVideogames: state.allVideogames.sort((a, b) => a.name.localeCompare(b.name) ),
+                filterVideogames:state.filterVideogames?.sort((a, b) => a.name.localeCompare(b.name) )
             };
         }
         else if (payload === "Descending") {
             return {
                 ...state,
                //filterVideogames: state.filterVideogames.sort((a,b) => b.name > a.name)
-               orderVideogames: state.orderVideogames.sort((a, b) => b.name.localeCompare(a.name))
+               orderVideogames: state.allVideogames.sort((a, b) => b.name.localeCompare(a.name)) ,
+               filterVideogames:state.filterVideogames?.sort((a, b) => b.name.localeCompare(a.name))
             };  
-        } 
-        else {
+        } else {
             return {
                 ...state,
-                orderVideogames: state.orderVideogames.sort((a,b) => 0.5 - Math.random())
+                allVideogames:state.primalVideogames,
+                //orderVideogames: state.orderVideogames.sort((a,b) => 0.5 - Math.random())
             };
         }
         case ORDER_BY_RATING:
-          if (payload === "alto") {return{ ...state,  orderVideogames:state.allVideogames.sort((a, b) => b.rating - a.rating)}
-            }else if(payload==="bajo") { return{...state, orderVideogames:state.allVideogames.sort((a,b) => a.rating - b.rating)} 
+          if (payload === "alto") {return{ ...state,  orderVideogames:state.allVideogames.sort((a, b) => b.rating - a.rating),
+                                          filterVideogames:state.filterVideogames?.sort((a, b) => b.rating - a.rating)}
+            }else if(payload==="bajo") { return{...state, orderVideogames:state.allVideogames.sort((a,b) => a.rating - b.rating),
+                                          filterVideogames:state.filterVideogames?.sort((a,b) => a.rating - b.rating) } 
             }else{return{...state, orderVideogames:state.allVideogames}}
           // const filteredByRating = payload === "alto"
           // ? state.allVideogames.sort((a, b) => b.rating - a.rating)
@@ -73,8 +77,7 @@ const reducer=(state=initialState, {type, payload}) =>{
         case FILTER_BY_DDBB:
           
         const dbOApi = payload === "DATABASE"?  state.allVideogames.filter(game => game.created===true)
-        : payload === "API"? 
-            state.allVideogames.filter(game => game.created===false)
+            : payload === "API"? state.allVideogames.filter(game => game.created===false)
                            : [...state.allVideogames];
           return {
                   ...state,

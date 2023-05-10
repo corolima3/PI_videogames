@@ -86,7 +86,7 @@ const Form =()=>{
           } else {
             dispatch(createVideogame(userData));
             alert("Game Created!");
-            //window.location.reload();
+            window.location.reload();
           }
         }, 100)
   

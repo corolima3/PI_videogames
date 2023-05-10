@@ -5,6 +5,9 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios'
 import Loading from '../../components/Loading/Loading'
 import style from './Detail.module.css'
+import { Link } from "react-router-dom";
+
+
 const Detail = () => {
 
 const {id} = useParams();
@@ -17,6 +20,10 @@ console.log(videoGameId)
 
     return (
         <div >
+            <div style={{ margin:"5vh"}}>
+            <Link style={{ textDecoration: 'none', margin:"10vh"}} to="/home"> <button  >Return to videoGames</button></Link>
+
+            </div>
         <div className={style.div}>
 
             {videoGameId?<div className={style.detail} key={videoGameId.id}>

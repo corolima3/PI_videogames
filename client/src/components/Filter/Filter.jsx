@@ -7,33 +7,50 @@ const Filter = (props) => {
     const {setData}= props;
     const dispatch = useDispatch();
     const {allGenres, allVideogames  } = useSelector(state => state)
-    const [selectedOption, setSelectedOption] = useState("All");
+    const [optionGenre, setOptionGenre] = useState("All");
+    const [optionAlphabet, setOptionAlphabet] = useState("All");
+    const [optionRating, setOptionRating] = useState("Normal");
+    const [optionOring, setOptionOringn] = useState("Source...");
+
     const {filterVideogames} = useSelector(state => state)
     console.log(filterVideogames);
 
     const handleRating = (e) => {
-        dispatch(orderByRate(e.target.value))}
+        dispatch(orderByRate(e.target.value))
+        setOptionRating(e.target.value)
+    }
 
     const handleAlp = (e) => {
         dispatch(orderByAlp(e.target.value))
+        setOptionAlphabet(e.target.value)
     };
 
     const handleGenres = (e) => {
         dispatch(returnVideogames(true))
         dispatch(filterByGenre(e.target.value))
-        setSelectedOption(e.target.value);
+        setOptionGenre(e.target.value);
+        setOptionAlphabet("All")
+        setOptionOringn("Source...")
+        setOptionRating("Normal")
     };
 
     const handleOringn = (e) => {
         dispatch(returnVideogames(true))
         dispatch(filterDbGames(e.target.value))
+        setOptionOringn(e.target.value)
+        setOptionGenre("All");
+        setOptionAlphabet("All")
+        setOptionRating("Normal")
     };
 
     const handleReset = () => {
-        setSelectedOption("All");
-        setData(allVideogames)
         dispatch(getAllVideogames());
         dispatch(deleteState("ok"))
+        setData(allVideogames)
+        setOptionGenre("All");
+        setOptionAlphabet("All")
+        setOptionRating("Normal")
+        setOptionOringn("Source...")
         dispatch(returnVideogames(false))
             // dispatch(filterDbGames('All'));
             // dispatch(orderByAlp('All'));
@@ -47,7 +64,7 @@ const Filter = (props) => {
 
             <div className={style.div}>
                 <h3>Alphabet:</h3>
-                <select name="order" id="" onChange={ handleAlp} >
+                <select name="order" id="" onChange={ handleAlp} value={optionAlphabet}>
                     <option value="All">All</option>
                     <option value="Ascending">Ascendente</option>
                     <option value="Descending">Descendente</option>
@@ -55,7 +72,7 @@ const Filter = (props) => {
             </div>
             <div className={style.div}>
                 <h3 >Rating:</h3>
-                    <select name="rating" onChange={handleRating}>
+                    <select name="rating" onChange={handleRating} value={optionRating}>
                         <option value='all'>Normal</option>
                         <option value='alto'>alto</option>
                         <option value='bajo'>bajo</option>  
@@ -63,17 +80,17 @@ const Filter = (props) => {
             </div>
             <div className={style.div}>
                 <h3 >Genres:</h3>
-                <select  name="Genres" id="Genres" onChange={handleGenres} value={selectedOption}>
+                <select  name="Genres" id="Genres" onChange={handleGenres} value={optionGenre}>
                 <option>All</option>
                         {allGenres?.map((genre, i) => <option key={i} value={genre.name}>{genre.name}</option>)}
                 </select>
                 </div>
                 <div className={style.div} >
                     <h3 >Origen:</h3>
-                    <select name="order" id="" onChange={handleOringn } >
-                    <option value="" >Source...</option>
-                    <option value="API" >API</option>
-                    <option value="DATABASE">DATABASE</option>
+                    <select name="order" id="" onChange={handleOringn } value= {optionOring}>
+                        <option value="" >Source...</option>
+                        <option value="API" >API</option>
+                        <option value="DATABASE">DATABASE</option>
                     </select>
 
                 </div>

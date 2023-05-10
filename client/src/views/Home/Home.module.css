@@ -6,6 +6,11 @@
     display: flex;
     justify-content: center;
 };
+.home .activeButton {
+    background-color: black;
+    color: white;
+  }
+
 /* background-size: cover;
     background: linear-gradient(to bottom right, #1e90ff, #00bfff);
 

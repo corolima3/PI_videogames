@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {getAllVideogames, getAllGenres, filterByGenre } from '../../redux/actions'
+import {getAllVideogames, getAllGenres } from '../../redux/actions'
 //import NavBar from '../../components/NavBar/NavBar'
 import CardsContener from "../../components/CardsContener/CardsContener";
 import Filter from '../../components/Filter/Filter';
@@ -21,7 +21,7 @@ const Home =()=>{
   if (!allVideogames.length) dispatch(getAllVideogames());
   if (!getAllGenres.length) dispatch(getAllGenres());
   
-}, [dispatch]);
+}, [allVideogames.length, dispatch]);
 
 useEffect(() => {
   if (byName.length && access ) {
@@ -94,7 +94,7 @@ console.log(data)
         <div className={style.center}>
           <button onClick={handlePrevPage}>Anterior</button>
           {pageNumbers.map((pageNumber) => (
-          <button key={pageNumber} onClick={() => handlePage(pageNumber)}>
+          <button key={pageNumber} onClick={()=> handlePage(pageNumber)} className={currentPage === pageNumber ? style.activeButton: "" }>
           {pageNumber}
           </button>
           ))}

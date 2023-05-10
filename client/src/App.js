@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="App">
        
-            {location.pathname !=='/'&& <NavBar/> }
+            {location.pathname !=='/'&& !location.pathname.includes('/detail/') &&<NavBar/> }           
             <Route path="/home" render={()=><Home/>} />
             <Route exact path="/" render={()=><Landing/>} />
             <Route exact path="/create" render={()=><Form />} />

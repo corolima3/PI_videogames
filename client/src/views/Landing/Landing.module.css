@@ -12,7 +12,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
+    padding-top: 10vh;
 }
 .landing h1 {
     font-size: 3rem;
