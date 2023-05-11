@@ -9,8 +9,6 @@ module.exports = (sequelize) => {
     allowNull:false,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
-      // type: DataTypes.INTEGER,
-      // primaryKey: true,
       // autoIncrement: true,
     },
     name: {
@@ -18,14 +16,16 @@ module.exports = (sequelize) => {
       allowNull: false,
     }, 
     image: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     released: {
       type: DataTypes.STRING
+      
     },
     description: {
       type: DataTypes.STRING,
-      // allowNull: false
+       allowNull: false
     },
     rating:{
       type: DataTypes.FLOAT

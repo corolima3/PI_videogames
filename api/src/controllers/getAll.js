@@ -60,7 +60,7 @@ const getAll=async()=>{
     apiRaw.push(...DDBB )
     return apiRaw ;       
 }
-
+//******************************** */
 const byName = async (name)=>{ //
     //`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`
     let URL = `https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`
@@ -68,6 +68,7 @@ const byName = async (name)=>{ //
 
     let newArr=[];
     try {
+        //DDBB
        // const pokemonDB = await Pokemon.findOne({ where: { name } });/VER WHERE
        let videogameDDBB = await Videogame.findOne({ where: { name: name },
         include: {

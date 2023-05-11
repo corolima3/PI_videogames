@@ -8,9 +8,9 @@ const handlerAll=async (req,res)=>{
     try {
         if (name){
              name=name.toLowerCase();
-             const pokemon = await byName (name);
-             if (!pokemon) throw Error(`There isn't videogames whith named, ${name}.`);
-             res.status(200).send(pokemon);
+             const videoGame = await byName (name);
+             if (!videoGame) throw Error(`There isn't videogames whith named, ${name}.`);
+             res.status(200).send(videoGame);
  
         }else{
             const everyOne=await getAll();

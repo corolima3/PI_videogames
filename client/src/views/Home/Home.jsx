@@ -8,6 +8,7 @@ import Filter from '../../components/Filter/Filter';
 import Loading from '../../components/Loading/Loading';
 import style from './Home.module.css'
 import Error from '../../components/Error/Error';
+//import Paginado from "../../components/Paginado/Paginado";
 
 const Home =()=>{
  
@@ -21,17 +22,22 @@ const Home =()=>{
   if (!allVideogames.length) dispatch(getAllVideogames());
   if (!getAllGenres.length) dispatch(getAllGenres());
   
-}, [allVideogames.length, dispatch]);
+}, [allVideogames.length]);
+
+const [currentPage, setCurrentPage] = useState(1);
 
 useEffect(() => {
   if (byName.length && access ) {
     setData(byName);
+    setCurrentPage(1)
   } else if(filterVideogames&&access){
     setData(filterVideogames)
   } else {
     setData(allVideogames);
   }
 }, [byName, allVideogames, filterVideogames ]);
+console.log(allVideogames)
+console.log(byName)
 // useEffect(() => {
 //   if (byName.length > 0) {
 //     setData(byName);
@@ -46,13 +52,11 @@ useEffect(() => {
         // },[allVideogames, dispatch])
         
       //console.log(allGenres)
-    const [currentPage, setCurrentPage] = useState(1);
    
    
 console.log(data)
     const startIndex = (currentPage - 1) * BY_PAGE;
     const endIndex = startIndex + BY_PAGE;
-
 
     const pageItems = data.slice(startIndex, endIndex);
   
@@ -61,23 +65,18 @@ console.log(data)
         setCurrentPage(currentPage - 1);
       }
     }
-  
     function handleNextPage() {
       if (currentPage < Math.ceil(data.length / BY_PAGE)) {
         setCurrentPage(currentPage + 1);
       }
     }
-
     function handlePage(pageNumber) {
         setCurrentPage(pageNumber);
       }
-    
       const pageCount = Math.ceil(data.length / BY_PAGE);
       const pageNumbers = [];
-    
       for (let i = 1; i <= pageCount; i++) {
-        pageNumbers.push(i);
-      }
+        pageNumbers.push(i); }
     
     return (
       <div>
@@ -86,21 +85,18 @@ console.log(data)
     <div className={style.home}>
         <Filter setData={setData} />
       <div className={style.center}>
-        <h1>{currentPage}</h1>
-      </div>
-      {pageItems.length? <CardsContener pageItems={pageItems}/> : <Error />
-
-      }
-        <div className={style.center}>
-          <button onClick={handlePrevPage}>Anterior</button>
-          {pageNumbers.map((pageNumber) => (
-          <button key={pageNumber} onClick={()=> handlePage(pageNumber)} className={currentPage === pageNumber ? style.activeButton: "" }>
-          {pageNumber}
+       
+          <button onClick={handlePrevPage}>{"<"}</button>
+            {pageNumbers.map((pageNumber) => (
+            <button key={pageNumber} onClick={()=> handlePage(pageNumber)} 
+            className={currentPage === pageNumber ? style.activeButton: "" }>
+            {pageNumber}
           </button>
           ))}
-          <button onClick={handleNextPage}>Siguiente</button>
-
-        </div>
+          <button onClick={handleNextPage}>{">"}</button>
+      </div>
+      { pageItems.length? <CardsContener pageItems={pageItems}/> : <Error /> }
+      
     </div> : <Loading />
       }
       </div>

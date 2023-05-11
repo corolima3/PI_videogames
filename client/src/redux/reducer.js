@@ -16,11 +16,12 @@ const reducer=(state=initialState, {type, payload}) =>{
     switch (type) {
 
         case ALL_VIDEOGAMES:
+          const primal = [...payload]
           return { ...state, 
             //filterVideogames:payload,
-            primalVideogames:payload,
+            primalVideogames:primal,
             allVideogames: payload,
-            //orderVideogames:payload,
+            orderVideogames:payload,
           };
         case BY_ID_VIDEOGAMES:
           return { ...state, allVideogames: payload,
@@ -38,7 +39,8 @@ const reducer=(state=initialState, {type, payload}) =>{
                   }
           }
         case ORDER_BY_ALP:
-          if (payload === "Ascending") {
+        
+        if (payload === "Ascending") {
             return {
                 ...state,
                 //filterVideogames: state.filterVideogames.sort((a,b) => a.name > b.name )
@@ -56,16 +58,19 @@ const reducer=(state=initialState, {type, payload}) =>{
         } else {
             return {
                 ...state,
-                allVideogames:state.primalVideogames,
+                allVideogames:[...state.primalVideogames],
                 //orderVideogames: state.orderVideogames.sort((a,b) => 0.5 - Math.random())
             };
         }
         case ORDER_BY_RATING:
-          if (payload === "alto") {return{ ...state,  orderVideogames:state.allVideogames.sort((a, b) => b.rating - a.rating),
+          if (payload === "alto") {return{ ...state, 
+                                          orderVideogames:state.allVideogames.sort((a, b) => b.rating - a.rating),
                                           filterVideogames:state.filterVideogames?.sort((a, b) => b.rating - a.rating)}
-            }else if(payload==="bajo") { return{...state, orderVideogames:state.allVideogames.sort((a,b) => a.rating - b.rating),
+            }else if(payload==="bajo") { return{...state, 
+                                          orderVideogames:state.allVideogames.sort((a,b) => a.rating - b.rating),
                                           filterVideogames:state.filterVideogames?.sort((a,b) => a.rating - b.rating) } 
-            }else{return{...state, orderVideogames:state.allVideogames}}
+            }else { return {...state, 
+                            allVideogames:[...state.primalVideogames]}}
           // const filteredByRating = payload === "alto"
           // ? state.allVideogames.sort((a, b) => b.rating - a.rating)
           // : payload === "bajo"
@@ -78,7 +83,7 @@ const reducer=(state=initialState, {type, payload}) =>{
           
         const dbOApi = payload === "DATABASE"?  state.allVideogames.filter(game => game.created===true)
             : payload === "API"? state.allVideogames.filter(game => game.created===false)
-                           : [...state.allVideogames];
+                           : [...state.primalVideogames];
           return {
                   ...state,
                   filterVideogames: dbOApi

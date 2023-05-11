@@ -2,7 +2,7 @@ import style from "./Filter.module.css";
 import {useState} from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { orderByAlp, orderByRate, filterDbGames, filterByGenre,deleteState } from "../../redux/actions";
-import {getAllVideogames, getAllGenres, returnVideogames } from '../../redux/actions'
+import {getAllVideogames, returnVideogames } from '../../redux/actions'
 const Filter = (props) => {
     const {setData}= props;
     const dispatch = useDispatch();
@@ -18,11 +18,13 @@ const Filter = (props) => {
     const handleRating = (e) => {
         dispatch(orderByRate(e.target.value))
         setOptionRating(e.target.value)
+        setOptionAlphabet("All")
     }
 
     const handleAlp = (e) => {
         dispatch(orderByAlp(e.target.value))
         setOptionAlphabet(e.target.value)
+        setOptionRating("Normal")
     };
 
     const handleGenres = (e) => {

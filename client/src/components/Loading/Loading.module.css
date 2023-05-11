@@ -3,7 +3,9 @@
     display: flex;
     justify-content: center;
     align-content: center;
-    margin: 6vw;
+    padding: 20vh;
+    background-color: black;
+    max-height: 100%;
 }
 
 .loading img {

@@ -9,9 +9,9 @@ const NavBar=()=>{
     return (
         
         <span className={style.NavBar}>
-            <Link to="/home" className={style.link}>HOME</Link>
-            <Link to="/create" className={style.link}>CREAR VIDEOGAME</Link>
-           <SearchBar className={style.SearchBar}/>
+            <Link to="/home" >HOME</Link>
+            <Link to="/create" >NEW VIDEOGAME</Link>
+           <SearchBar />
         </span>
 
     )

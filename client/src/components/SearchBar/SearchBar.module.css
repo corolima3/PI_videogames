@@ -10,15 +10,21 @@
 
 .button {
   padding: 5px 10px;
-  background-color: #ff6b6b;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  font-size: 18px;
+  font-family:'Times New Roman', Times, serif;
 }
 
 .button:hover {
-  background-color: #ff8f8b;
+  background-color:  silver;
+  color:black;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  padding: 3px 9px;
+
 }
 
 

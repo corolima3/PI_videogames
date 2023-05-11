@@ -9,6 +9,7 @@ const getGenre=async ()=> {
     let URL= `https://api.rawg.io/api/genres?key=${API_KEY} `;
     //DDBB
     const DDBB = await Genre.findAll();
+    //si hay
     if (DDBB.length) return DDBB;
 
     const genreApi = (await axios.get(URL)).data.results;

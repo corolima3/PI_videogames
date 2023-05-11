@@ -16,7 +16,7 @@ const cleanInfo = (elem)=> {
             created: false,}
 }
 const getById= async(id,source) => {
-
+        //API
     if(source==="api") {
 
         const videogamesRaw = (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)).data;
@@ -25,6 +25,7 @@ const getById= async(id,source) => {
 
         return videogames;
     } else {
+        //DDBB
         let searchByid= await Videogame.findByPk(id , { include: Genre });
        const { dataValues}= searchByid
     // console.log(dataValues);
