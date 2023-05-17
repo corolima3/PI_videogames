@@ -3,7 +3,7 @@ const {postVideogames}= require ('../controllers/postVideogame');
 const handlerPost=async(req,res)=>{
     let {name, image, released, rating, platforms, description, genre } = req.body;
     try {
-        if (!name || !image || !released || !rating || !platforms || !description|| !genre ) 
+        if ( !name|| !image|| !released|| !rating|| !platforms|| !description|| !genre ) 
             throw new Error("Faltan datos obligatorios");
         name = name.toLowerCase();
         const newVideogames = await postVideogames( name, image, released, rating, platforms, description, genre );
@@ -18,6 +18,7 @@ module.exports={ handlerPost };
 // Nombre. * // Descripción. * // Plataformas. *
 // Imagen. * // Fecha de lanzamiento. * // Rating. *
 // POST /videogames
+//permite manejar req y res,
 // Esta ruta recibirá todos los datos necesarios para crear un videojuego 
 // y relacionarlo con sus géneros solicitados.
 // Toda la información debe ser recibida por body.

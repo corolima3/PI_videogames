@@ -17,7 +17,7 @@ const handlerAll=async (req,res)=>{
             res.status(200).send(everyOne);
         }
 
-       } catch (error) { res.status(400).json({Message: error.message}) }
+       } catch (error) { res.status(400).json({error: error.message}) }
 }
 
 

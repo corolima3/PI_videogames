@@ -1,7 +1,7 @@
 const { getGenre } = require ('../controllers/getGenre')
 
 const handleGenre =async(req, res)=>{
-    console.log("hola")
+    
     try {
         const genre = await getGenre();
         res.status(200).send(genre);

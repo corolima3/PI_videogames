@@ -2,37 +2,11 @@ require('dotenv').config();
 const { API_KEY } = process.env;
 const axios = require ('axios');
 const {Videogame, Genre } = require('../db');
-
+//Genre. En este caso, se establece attributes como un array vacío,
+//lo que significa que no se obtendrán atributos adicionales de la tabla intermedia.
 const getAll=async()=>{
-
-// API
-    let count= 0;
-    let URL = `https://api.rawg.io/api/games?key=${API_KEY}`
-
-    let apiRaw = [];
-       while (count<5) {
-        
-           const callApi=   await axios.get(URL) ///asincronico
-               .then((response)=> {
-              // console.log(response.data) 
-                URL = response.data.next;
-               return response.data})
-               //.then(data=>  apiRaw.push(data.results[0].name) )
-               .then(data=> data.results.map((elem) => {apiRaw.push({
-                         id: elem.id,
-                         name: elem.name,
-                         image: elem.background_image,
-                         released: elem.released,
-                         rating: elem.rating,
-                         platforms: elem.platforms.map((elem) => elem.platform.name),
-                         genres: elem.genres.map((elem) => elem.name),
-                         created: false,
-                       });
-                     }) )
-                     count++
-       }
-        //console.log(apiRaw);
-    //DDBB
+    let apiRaw = [];  //esto es response
+     //DDBB
     let DDBB = await Videogame.findAll({  
         include: {
             model: Genre,
@@ -58,6 +32,33 @@ const getAll=async()=>{
     });
 
     apiRaw.push(...DDBB )
+
+// API
+    let count= 0;
+    let URL = `https://api.rawg.io/api/games?key=${API_KEY}`
+
+       while (count<5) {
+        
+           const callApi= await axios.get(URL) ///asincronico
+
+               .then((response)=> { URL = response.data.next;
+
+               return response.data})
+            
+               .then(data=> data.results.map((elem) => {apiRaw.push({
+                         id: elem.id,
+                         name: elem.name,
+                         image: elem.background_image,
+                         released: elem.released,
+                         rating: elem.rating,
+                         platforms: elem.platforms.map((elem) => elem.platform.name),
+                         genres: elem.genres.map((elem) => elem.name),
+                         created: false,
+                       });
+                     }) )
+                     count++
+       }
+   
     return apiRaw ;       
 }
 //******************************** */
@@ -66,7 +67,7 @@ const byName = async (name)=>{ //
     let URL = `https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`
     
 
-    let newArr=[];
+    let newArr=[]; // esto es response
     try {
         //DDBB
        // const pokemonDB = await Pokemon.findOne({ where: { name } });/VER WHERE

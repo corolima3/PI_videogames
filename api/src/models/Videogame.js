@@ -1,6 +1,10 @@
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
+
+//videogame, tiene los atributos, para las columnas.
+//restriciones 
+
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('videogame', {
@@ -9,7 +13,7 @@ module.exports = (sequelize) => {
     allowNull:false,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
-      // autoIncrement: true,
+      
     },
     name: {
       type: DataTypes.STRING,
@@ -33,9 +37,9 @@ module.exports = (sequelize) => {
     },
     platforms:{
       type: DataTypes.ARRAY(DataTypes.STRING)
-    //type: DataTypes.STRING,
-      // allowNull: false 
-    },created: {
+    
+    },
+    created: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
       allowNull: false,
