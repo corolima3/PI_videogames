@@ -6,9 +6,10 @@
     background-color:  #1b1b1d;
     width: 100%;
     height: 80px;
-    padding: 0 20px;
+  
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-;}
+    border-bottom: 2px solid rgb(247, 248, 242);
+  }
 .NavBar a {
     text-decoration: none;
     color: whitesmoke;

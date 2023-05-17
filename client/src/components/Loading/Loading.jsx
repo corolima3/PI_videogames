@@ -1,6 +1,6 @@
 import style from "./Loading.module.css"
-import loading from "../../assets/loading.gif"
-//<img src={loader} alt="loader"/>
+import loading from "../../assets/loading.gif";
+
 const Loading = () => {
     return (
         <div className={style.loading}>

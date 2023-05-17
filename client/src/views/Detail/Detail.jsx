@@ -1,4 +1,4 @@
-//import style from "./Detail.module.css";
+
 //import {Link} from "react-router-dom"
 import {useEffect, useState} from "react";
 import {useParams} from 'react-router-dom';
@@ -16,7 +16,7 @@ useEffect(() => {
     axios.get(`http://localhost:3001/videogames/${id}`)
         .then(result => setVideoGameId(result.data))
 }, [id]);
-console.log(videoGameId)
+//console.log(videoGameId)
 
     return (
         <div >
@@ -27,7 +27,7 @@ console.log(videoGameId)
         <div className={style.div}>
 
             {videoGameId?<div className={style.detail} key={videoGameId.id}>
-                <h3 >{videoGameId.name}</h3>
+                <h2 >{videoGameId.name}</h2>
                 <div >
                     <img src={videoGameId.image} alt={videoGameId.image} />
                 </div>

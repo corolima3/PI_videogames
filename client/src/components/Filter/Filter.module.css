@@ -7,7 +7,7 @@
 }
 .div{
   padding: 5px 10px;
-
+  text-align: center;
 }
 select {
     padding: 5px;
@@ -17,24 +17,29 @@ select {
   
   .button{
     display: flex;
-    align-content: flex-end;
-    padding: 5px;
-
+    align-content: center;
+    text-align: center;
+    padding: 0.5px 1px;
   }
   button {
-    margin: 10px;
-    padding: 5px;
+    margin: 3px;
+    padding: 7px;
     font-size: 1rem;
     border: none;
-    background-color: #1b1a1d;
-    color: white;
+    background-color: white;
+    color: rgb(14, 13, 13);
     cursor: pointer;
     border-radius: 9px;    
+    border: 2px solid rgb(7, 7, 7);
+
   }
   
   h3 {
     margin-top: 0;
     margin-bottom: 5px;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.9rem;
+    
+    color: white;
+    font-family:'Times New Roman', Times, serif;
+
   }

@@ -19,9 +19,7 @@ export const getAllVideogames=()=>{
            
             return dispatch({ type:ALL_VIDEOGAMES, payload: getAll.data });
             
-        } catch (error) { console.log(error.message);
-            
-        }
+        } catch (error) { console.log(error.message) }
     }
 }
 
@@ -32,9 +30,7 @@ export const getAllGenres=()=>{
             console.log(getGenres.data)
             return dispatch({ type:ALL_GENRES, payload: getGenres.data });
             
-        } catch (error) { console.log(error.message);
-            
-        }
+        } catch (error) { console.log(error.message) }
     }
 }
 export const createVideogame = (userData) =>{
@@ -44,8 +40,7 @@ export const createVideogame = (userData) =>{
             console.log(userData)
             return dispatch({ type:CREATE_GAME, payload: newCreate.data });
             
-        } catch (error) { console.log(error.message);     
-        }
+        } catch (error) { console.log(error.message) }
     }
 }
 export const orderByRate = (rate) => dispatch => {
@@ -59,9 +54,7 @@ export const orderByAlp = (alp) => dispatch => {
 export const filterByGenre = (genre) => dispatch => {
     try {
         return dispatch({type: FILTER_BY_GENRE, payload: genre})
-    } catch (error) {
-        //return dispatch({type: ERROR, payload: error});
-    }
+    } catch (error) {console.log(error.message) }
 };
 
 export const filterDbGames = (value) => dispatch => {
@@ -82,15 +75,11 @@ export const getByName = (name) => {
     export const returnVideogames = (access) => dispatch => {
         try {
             return dispatch({type: RETURN_VIDEOGAMES, payload: access})
-        } catch (error) { console.log(error)
-            //return dispatch({type: ERROR, payload: error});
-        }
+        } catch (error) { console.log(error.message) }
     };
     export const deleteState = (value) => dispatch => {
         try {
             return dispatch({type: DELETE_STATE, payload: value})
-        } catch (error) { console.log(error)
-            //return dispatch({type: ERROR, payload: error});
-        }
+        } catch (error) { console.log(error.message) }
     };
     

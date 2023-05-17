@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import style from './NavBar.module.css'
 import SearchBar from "../SearchBar/SearchBar.jsx";
-//className={style.NavBar}
+
 const NavBar=()=>{
 
     return (

@@ -6,13 +6,11 @@ import Card from "../Card/Card";
 const CardsContener = (props) => {
   const {pageItems}= props;
  // console.log(allvideogames) 
- // const {id,name, image, released, platforms, genres, created}= props;
- //   const pokemonsByName = useSelector(state => state.allPokemons);
-  
+ 
   return (  
     <div className={style.cardsContaner} >
 
-      {pageItems.map((videogames, index)=>{
+      {pageItems.map(( videogames )=>{
         return <Card 
           key={videogames.id}
           id={videogames.id}

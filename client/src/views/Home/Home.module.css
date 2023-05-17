@@ -1,6 +1,6 @@
 .home{
     margin: 0px;
-    background-image: linear-gradient(45deg, #1b1b1d, #30106b);
+    background-color:  #1b1b1d;
     padding: 3vw;
 }
 .center{
@@ -8,14 +8,16 @@
     justify-content: center;
 };
 button {
-    margin: 10px;
-    padding: 5px;
-    font-size: 1rem;
-    border: none;
-    background-color: #1b1a1d;
-    color: white;
-    cursor: pointer;
-    border-radius: 9px;    
+  margin: 3px;
+  padding: 7px;
+  font-size: 1rem;
+  border: none;
+  background-color: white;
+  color: rgb(14, 13, 13);
+  cursor: pointer;
+  border-radius: 9px;    
+  border: 2px solid rgb(7, 7, 7);
+
   }
   .activeButton {
     background-color: rgb(0, 0, 0);

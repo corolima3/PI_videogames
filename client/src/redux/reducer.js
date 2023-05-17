@@ -4,12 +4,11 @@ import { ALL_VIDEOGAMES, BY_NAME_VIDEOGAMES, BY_ID_VIDEOGAMES, ALL_GENRES, ORDER
 const initialState = {
   primalVideogames:[],
   allVideogames:[],
-  orderVideogames:[],
   filterVideogames:[],
   byName:[],
   allGenres:[],
   access:false,
-  errorMsg:{},
+  error:false,
 }
 
 const reducer=(state=initialState, {type, payload}) =>{
@@ -18,10 +17,9 @@ const reducer=(state=initialState, {type, payload}) =>{
         case ALL_VIDEOGAMES:
           const primal = [...payload]
           return { ...state, 
-            //filterVideogames:payload,
+         
             primalVideogames:primal,
             allVideogames: payload,
-            orderVideogames:payload,
           };
         case BY_ID_VIDEOGAMES:
           return { ...state, allVideogames: payload,
@@ -39,78 +37,55 @@ const reducer=(state=initialState, {type, payload}) =>{
                   }
           }
         case ORDER_BY_ALP:
+          const copy=[...state.primalVideogames]
+          const all=[...state.allVideogames]
+          const alphabet= payload === "Ascending"? all.sort((a, b) => a.name.localeCompare(b.name) ):
+          payload === "Descending"? all.sort((a, b) => b.name.localeCompare(a.name))
+           : payload==="Random" ? all.sort((a,b) => 0.5 - Math.random())
+           :copy
+           return { ...state, allVideogames:alphabet}
         
-        if (payload === "Ascending") {
-            return {
-                ...state,
-                //filterVideogames: state.filterVideogames.sort((a,b) => a.name > b.name )
-                orderVideogames: state.allVideogames.sort((a, b) => a.name.localeCompare(b.name) ),
-                filterVideogames:state.filterVideogames?.sort((a, b) => a.name.localeCompare(b.name) )
-            };
-        }
-        else if (payload === "Descending") {
-            return {
-                ...state,
-               //filterVideogames: state.filterVideogames.sort((a,b) => b.name > a.name)
-               orderVideogames: state.allVideogames.sort((a, b) => b.name.localeCompare(a.name)) ,
-               filterVideogames:state.filterVideogames?.sort((a, b) => b.name.localeCompare(a.name))
-            };  
-        } else {
-            return {
-                ...state,
-                allVideogames:[...state.primalVideogames],
-                //orderVideogames: state.orderVideogames.sort((a,b) => 0.5 - Math.random())
-            };
-        }
         case ORDER_BY_RATING:
-          if (payload === "alto") {return{ ...state, 
-                                          orderVideogames:state.allVideogames.sort((a, b) => b.rating - a.rating),
-                                          filterVideogames:state.filterVideogames?.sort((a, b) => b.rating - a.rating)}
-            }else if(payload==="bajo") { return{...state, 
-                                          orderVideogames:state.allVideogames.sort((a,b) => a.rating - b.rating),
-                                          filterVideogames:state.filterVideogames?.sort((a,b) => a.rating - b.rating) } 
-            }else { return {...state, 
-                            allVideogames:[...state.primalVideogames]}}
-          // const filteredByRating = payload === "alto"
-          // ? state.allVideogames.sort((a, b) => b.rating - a.rating)
-          // : payload === "bajo"
-          // ? state.allVideogames.sort((a,b) => a.rating - b.rating)
-          // : [...state.allVideogames];
-          // return { ...state,
-          //   filterVideogames: filteredByRating } ;
+          
+          const ByRating = payload === "alto"
+          ? state.allVideogames.sort((a, b) => b.rating - a.rating)
+          : payload === "bajo"
+          ? state.allVideogames.sort((a,b) => a.rating - b.rating)
+          : [...state.primalVideogames];
+          return { ...state,
+            allVideogames: ByRating } ;
           
         case FILTER_BY_DDBB:
           
-        const dbOApi = payload === "DATABASE"?  state.allVideogames.filter(game => game.created===true)
-            : payload === "API"? state.allVideogames.filter(game => game.created===false)
-                           : [...state.primalVideogames];
+        const dbOApi = payload === "DATABASE"?  state.primalVideogames.filter(game => game.created===true)
+            : payload === "API"? state.primalVideogames.filter(game => game.created===false)
+            : [...state.primalVideogames];
+            const error= dbOApi.length;
           return {
                   ...state,
-                  filterVideogames: dbOApi
+                  allVideogames: dbOApi,
+                error: !error ?true: false,
+
               };
-          // const dbOApi = payload === "DATABASE"? 
-          //   state.allVideogames.filter(game => isNaN(parseInt(game.id)))
-          //   : payload === "API"? 
-          //   state.allVideogames.filter(game => !isNaN(parseInt(game.id)))
-          //                  : [...state.allVideogames];
-          //   return {
-          //       ...state,
-          //       filterVideogames: dbOApi
-          //   };
+       
         case FILTER_BY_GENRE:
-          const filtered= state.allVideogames.filter(game => game.genres.includes(payload));
-          
+          const filter= payload === "All"?state.primalVideogames: state.primalVideogames.filter(game => game.genres.includes(payload));
+          const err= filter.length;
             return{
-                ...state, filterVideogames:filtered,
-                
+                ...state, allVideogames:filter,
+                error: !err ?true: false,
               }
+
         case RETURN_VIDEOGAMES:
           return{
             ...state, access:payload
           }
         case DELETE_STATE:
-          return{
-            ...state, filterVideogames:[], byName:[],
+          return{ ...state, 
+            filterVideogames:[], 
+            byName:[],
+            allVideogames:state.primalVideogames,
+            error:false,
           }
         default:
             return { ...state };

@@ -2,6 +2,8 @@ import {useState} from "react";
 import { useDispatch } from "react-redux";
 import {getByName, returnVideogames} from '../../redux/actions';
 import style from './SearchBar.module.css'
+//import searchImg from '../../assets/search.png'
+
 const SearchBar=()=>{
     const dispatch = useDispatch();
    // const {access}= useSelector((state)=>state);
@@ -21,7 +23,7 @@ const SearchBar=()=>{
     return(
         <div>
             <input className={style.input} onChange={handleSearch} value={search} type='search' placeholder="Search Videogame..." />
-            <button className={style.button} onClick={handleClick }>AGREGAR</button>
+            <button className={style.button} onClick={handleClick }>SEARCH</button>
         </div>
     )
 } 

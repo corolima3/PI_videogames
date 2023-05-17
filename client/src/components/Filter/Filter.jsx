@@ -2,9 +2,10 @@ import style from "./Filter.module.css";
 import {useState} from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { orderByAlp, orderByRate, filterDbGames, filterByGenre,deleteState } from "../../redux/actions";
-import {getAllVideogames, returnVideogames } from '../../redux/actions'
+import { returnVideogames } from '../../redux/actions'
+
 const Filter = (props) => {
-    const {setData}= props;
+    const {setData, setCurrentPage}= props;
     const dispatch = useDispatch();
     const {allGenres, allVideogames  } = useSelector(state => state)
     const [optionGenre, setOptionGenre] = useState("All");
@@ -28,25 +29,26 @@ const Filter = (props) => {
     };
 
     const handleGenres = (e) => {
-        dispatch(returnVideogames(true))
+       // dispatch(returnVideogames(true))
         dispatch(filterByGenre(e.target.value))
         setOptionGenre(e.target.value);
+        setCurrentPage(1);
         setOptionAlphabet("All")
         setOptionOringn("Source...")
         setOptionRating("Normal")
     };
 
     const handleOringn = (e) => {
-        dispatch(returnVideogames(true))
-        dispatch(filterDbGames(e.target.value))
-        setOptionOringn(e.target.value)
+        //dispatch(returnVideogames(true))
+        dispatch(filterDbGames(e.target.value));
+        setOptionOringn(e.target.value);
+        setCurrentPage(1);
         setOptionGenre("All");
-        setOptionAlphabet("All")
-        setOptionRating("Normal")
+        setOptionAlphabet("All");
+        setOptionRating("Normal");
     };
 
     const handleReset = () => {
-        dispatch(getAllVideogames());
         dispatch(deleteState("ok"))
         setData(allVideogames)
         setOptionGenre("All");
@@ -54,10 +56,7 @@ const Filter = (props) => {
         setOptionRating("Normal")
         setOptionOringn("Source...")
         dispatch(returnVideogames(false))
-            // dispatch(filterDbGames('All'));
-            // dispatch(orderByAlp('All'));
-            // dispatch(orderByRate('all'));
-            // dispatch(filterByGenre('All'));
+        
     }
   
 
@@ -65,7 +64,7 @@ const Filter = (props) => {
         <div className={style.row}>
 
             <div className={style.div}>
-                <h3>Alphabet:</h3>
+                <h3>ALPHABET:</h3>
                 <select name="order" id="" onChange={ handleAlp} value={optionAlphabet}>
                     <option value="All">All</option>
                     <option value="Ascending">Ascendente</option>
@@ -73,7 +72,7 @@ const Filter = (props) => {
                 </select>
             </div>
             <div className={style.div}>
-                <h3 >Rating:</h3>
+                <h3 >RATING:</h3>
                     <select name="rating" onChange={handleRating} value={optionRating}>
                         <option value='all'>Normal</option>
                         <option value='alto'>alto</option>
@@ -81,14 +80,14 @@ const Filter = (props) => {
                     </select>
             </div>
             <div className={style.div}>
-                <h3 >Genres:</h3>
+                <h3 >GENRES:</h3>
                 <select  name="Genres" id="Genres" onChange={handleGenres} value={optionGenre}>
                 <option>All</option>
                         {allGenres?.map((genre, i) => <option key={i} value={genre.name}>{genre.name}</option>)}
                 </select>
                 </div>
                 <div className={style.div} >
-                    <h3 >Origen:</h3>
+                    <h3 >ORIGEN:</h3>
                     <select name="order" id="" onChange={handleOringn } value= {optionOring}>
                         <option value="" >Source...</option>
                         <option value="API" >API</option>
@@ -97,7 +96,7 @@ const Filter = (props) => {
 
                 </div>
                 <div className={style.button}>
-                    <button onClick={handleReset}>RESET FILTERS</button>
+                    <button onClick={handleReset}> RESET </button>
                 </div>
             
         </div>

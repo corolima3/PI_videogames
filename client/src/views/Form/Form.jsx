@@ -8,7 +8,7 @@ const Form =()=>{
 
  const  { allGenres }= useSelector((state)=>state)
 
- //console.log({errorMsg})
+ //console.log()
  const dispatch =useDispatch();
 
  useEffect(()=>{
@@ -42,32 +42,19 @@ const Form =()=>{
                 ...userData, [event.target.name]: event.target.value
             });
           setErrors(validate({...userData, [event.target.name]: event.target.value}));
-            //  setErrors((prevState) => ({
-            //    ...prevState,
-            //    [event.target.name]: validate({ [event.target.name]: event.target.value }),
-            //  }));
+         
     };
     function handlerGenres(e) {
       setUserData({ ...userData, genre: e.target.value
-          //genre: userData.genres.includes(e.target.value) ? userData.genres : [...userData.genres, e.target.value]
 
       });
       setErrors(validate({...userData, genre: e.target.value}));
-      // setErrors((prevState) => ({
-      //   ...prevState,
-      //   genre : validate({ [e.target.name]: e.target.value }),
-      // }));
   }
     function handlerPlatforms(e) {
       setUserData({ ...userData, platforms:[e.target.value]
-     // setUserData({ ...userData, platforms:[...userData.platforms, e.target.value]
 
       });
       setErrors(validate({...userData, platforms:[...userData.platforms, e.target.value]}));
-      // setErrors((prevState) => ({
-      //   ...prevState,
-      //   platforms: validate({ [e.target.name]: e.target.value }),
-      // }));
   }
 
   console.log(userData)
@@ -76,10 +63,7 @@ const Form =()=>{
         e.preventDefault();
         setErrors(validate(userData))
 
-        // setTimeout(() => {
-        //   dispatch(createVideogame(objecto));
-        //    alert("Game Created!")
-        // })
+       
         setTimeout(() => { // espera un poco antes de verificar los errores
           if(Object.values(errors).length >0) {
             return alert("Please verify that all fields are filled in correctly");
@@ -96,7 +80,7 @@ const Form =()=>{
     return (
     <div className={style.column}>
         <form onSubmit={handleSubmit}>
-          <h2>Crea tu Videogame</h2>
+          <h2 className={style.h2}>Crea tu Videogame</h2>
           <label> Nombre:
             <input type="text" value={userData.name} onChange={handlerInput} name={"name"} placeholder={"..."} className={style.input}/>
           </label>
